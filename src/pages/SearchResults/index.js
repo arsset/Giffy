@@ -2,11 +2,35 @@
 import ListOfGifs from "components/ListOfGifs";
 import Spinner from "components/Spinner";
 import  {useGifs} from 'hooks/useGifs';
+import useNearScreen from "hooks/useNearScreen";
+import { useEffect, useRef, useCallback } from "react";
+import debounce from 'just-debounce-it';
 
 export default function SearchResults ( { params }) {
 
     const { keyword } = params;
-    const { loading, gifs } = useGifs({ keyword});
+    const {  loading, gifs, setPage } = useGifs({ keyword});
+    const externalRef = useRef()
+    const { isNearScreen }= useNearScreen({ 
+        externalRef: loading ? null : externalRef,
+        once: false
+    });
+
+    console.log(isNearScreen);
+
+    //const handleNextPage = () => setPage( prevPage => prevPage +1 );
+    //const handleNextPage = () => console.log('next page');
+
+    //useCallback se utiliza para guardar la función para que no se cree en cada renderizado del componente
+    const debounceandleNextPage = useCallback( debounce( 
+        () => setPage( prevPage => prevPage +1 ), 1000
+    ), []);
+
+
+    useEffect(() => {
+      if( isNearScreen ) debounceandleNextPage();
+    }, [debounceandleNextPage, isNearScreen ])
+    
 
     return <>
         {
@@ -17,7 +41,10 @@ export default function SearchResults ( { params }) {
                     {decodeURI(keyword)}
                     </h3>
                     <ListOfGifs gifs={gifs} />
+                    <div id="visor" ref={externalRef}></div>
                 </>
         }
+        <br/>
+        {/* <button onClick={ handleNextPage}> Get net page</button> */}
     </>
 };

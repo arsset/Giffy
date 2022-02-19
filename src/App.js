@@ -1,10 +1,14 @@
 import './App.css';
 import { Route } from "wouter";
-import Home from './pages/Home';
+
 import SearchResults from './pages/SearchResults';
 import StaticContext  from './context/StaticContext';
 import Detail from './pages/Detail';
 import { GifsContextProvider } from './context/GifsContext';
+import React, { Suspense } from 'react';
+
+
+const HomePage = React.lazy( () =>  import('./pages/Home') );
 
 function App() {
 
@@ -15,24 +19,26 @@ function App() {
       suscribeteAlCanal: true
     }}>
       <div className="App">
-        <section className="App-content">
-         
-          <GifsContextProvider>
-            <Route 
-              component={Home} 
-              path='/'
-            />
+        <Suspense fallback={null}>
+          <section className="App-content">
+          
+            <GifsContextProvider>
+              <Route 
+                component={HomePage} 
+                path='/'
+              />
 
-            <Route 
-              path="/search/:keyword" 
-              component={SearchResults} 
-            />
-            <Route 
-              path="/gif/:id" 
-              component={Detail} 
-            />
-          </GifsContextProvider>
-        </section>
+              <Route 
+                path="/search/:keyword" 
+                component={SearchResults} 
+              />
+              <Route 
+                path="/gif/:id" 
+                component={Detail} 
+              />
+            </GifsContextProvider>
+          </section>
+        </Suspense>
       </div>
     </StaticContext.Provider>
   );

@@ -10,14 +10,12 @@ export default function Home () {
 
     const [ keyword, setKeyword] = useState('');
     const { gifs} = useGifs();
-    const [ pushLocation] = useLocation();
+    const [ location, setLocation] = useLocation();
 
-
-    
     const handleSubmit = evt => {
         evt.preventDefault();
         console.log(keyword);
-        pushLocation(`/search/${keyword}`);
+        setLocation(`/search/${keyword}`);
 
     };
 
@@ -31,6 +29,7 @@ export default function Home () {
         <h3>Los gifs más populares</h3>
 
         <form onSubmit={ handleSubmit }>
+          <button>Buscar</button>
             <input placeholder="Search a gif for...." onChange={handleChange} type="text" value={keyword}/>
         </form>
 
@@ -43,9 +42,6 @@ export default function Home () {
             <TrendingSearches/>
           </div>
         </div>
-
-        <h3>Última búsqueda</h3>
-        <ListOfGifs gifs={gifs} />
     
     </>
   )
