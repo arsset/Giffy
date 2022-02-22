@@ -36,6 +36,10 @@ function App() {
                 path="/gif/:id" 
                 component={Detail} 
               />
+              <Route 
+                component={()=> <h1>404 error :(</h1>}
+                path="/404"
+              />
             </GifsContextProvider>
           </section>
         </Suspense>
