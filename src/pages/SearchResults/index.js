@@ -16,12 +16,11 @@ export default function SearchResults ( { params }) {
         once: false
     });
 
-    console.log(isNearScreen);
-
     //const handleNextPage = () => setPage( prevPage => prevPage +1 );
     //const handleNextPage = () => console.log('next page');
 
     //useCallback se utiliza para guardar la función para que no se cree en cada renderizado del componente
+    // debounce ejecuta una sola vez la función en un periodo de tiempo
     const debounceandleNextPage = useCallback( debounce( 
         () => setPage( prevPage => prevPage +1 ), 1000
     ), []);
