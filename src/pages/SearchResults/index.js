@@ -5,7 +5,7 @@ import  {useGifs} from 'hooks/useGifs';
 import useNearScreen from "hooks/useNearScreen";
 import { useEffect, useRef, useCallback } from "react";
 import debounce from 'just-debounce-it';
-import useSEO from "hooks/useSEO";
+import { Helmet } from "react-helmet";
 
 export default function SearchResults ( { params }) {
 
@@ -18,7 +18,6 @@ export default function SearchResults ( { params }) {
     });
 
     const title = gifs? `${ gifs.length } resultados de ${keyword}`: ''
-    useSEO({ title});
 
     //const handleNextPage = () => setPage( prevPage => prevPage +1 );
     //const handleNextPage = () => console.log('next page');
@@ -40,6 +39,11 @@ export default function SearchResults ( { params }) {
             loading
                 ? <Spinner />
                 : <>
+                    <Helmet>
+                        <title>{title} || Giffy</title>
+                        <meta name="description" content={title} />
+                    </Helmet>
+
                     <h3 className="App-title">
                     {decodeURI(keyword)}
                     </h3>
