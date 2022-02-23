@@ -1,7 +1,7 @@
 import Gif from 'components/Gif'
 import Spinner from 'components/Spinner';
 import useSingleGif from 'hooks/useSingleGif'
-import useTitle from 'hooks/useTitle';
+import useSEO from 'hooks/useSEO';
 import { Redirect } from 'wouter';
 
 export default function Detail ({ params }) {
@@ -9,7 +9,7 @@ export default function Detail ({ params }) {
   const {gif, isLoading, isError} = useSingleGif( { id: params.id});
 
   const title = gif ? gif.title: '';
-  useTitle({ title: title});
+  useSEO({ description: `Detail of ${title}`,title});
 
   if ( isLoading ) return <Spinner/>
   if ( isError ) return <Redirect to="/404"/>
