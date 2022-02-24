@@ -4,7 +4,7 @@ import GifsContext from '../context/GifsContext'
 
 const INITIAL_PAGE = 0;
 
-export function useGifs ({ keyword } = { keyword: null }) {
+export function useGifs ({ keyword, rating } = { keyword: null }) {
 
     const [ loading, setLoading] = useState(false);
     const [ loadingNextPage, setLoadingNextPage] = useState(false);
@@ -17,7 +17,7 @@ export function useGifs ({ keyword } = { keyword: null }) {
     useEffect( function () { // se ejecuta cada vez que se renderiza el componente
       setLoading(true);
       
-        getGifs( {keyword: keyWordToUse})
+        getGifs( {keyword: keyWordToUse, rating})
             .then ( gifs => {
               setGifs(gifs);
               setLoading(false);
@@ -26,7 +26,7 @@ export function useGifs ({ keyword } = { keyword: null }) {
 
             });
         
-    }, [keyWordToUse, keyword, setGifs] );
+    }, [keyWordToUse, keyword, setGifs, rating] );
 
 
     useEffect( function () {
@@ -34,12 +34,12 @@ export function useGifs ({ keyword } = { keyword: null }) {
 
       setLoadingNextPage(true)
 
-      getGifs( { keyword: keyWordToUse, page })
+      getGifs( { keyword: keyWordToUse, rating,  page })
         .then( nextGifs => {
           setGifs(prevGifs => prevGifs.concat(nextGifs));
           setLoadingNextPage(false)
         })
-    },[keyWordToUse, page, setGifs] )
+    },[keyWordToUse, rating, page, setGifs] )
 
     return { loading, loadingNextPage, gifs, setPage };
 }
